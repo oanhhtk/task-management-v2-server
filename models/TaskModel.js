@@ -6,7 +6,7 @@ var Data = {
   status: String,
 };
 
-const noteSchema = new mongoose.Schema(
+const taskModel = new mongoose.Schema(
   {
     content: {
       type: Data,
@@ -19,5 +19,5 @@ const noteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const NoteModel = mongoose.model("Note", noteSchema);
+const NoteModel = mongoose.model("Task", taskModel);
 export default NoteModel;
