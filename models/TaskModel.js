@@ -4,6 +4,8 @@ var Data = {
   name: String,
   descriptions: String,
   status: String,
+  issue_type: String,
+  priority: String,
 };
 
 const taskModel = new mongoose.Schema(

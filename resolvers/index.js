@@ -123,10 +123,8 @@ export const resolvers = {
       });
 
       return notes;
-      // return fakeData.notes.filter((note) => note.folderId === parent.id);
     },
     tasks: async (parent, args) => {
-      console.log("args");
       const tasks = await TaskModel.find({
         folderId: parent.id,
       }).sort({
@@ -137,14 +135,14 @@ export const resolvers = {
         TODO: [],
         INPROGRESS: [],
         DONE: [],
+        RESOLVED: [],
+        RELEASED: [],
       };
 
       tasks.forEach((item) => {
         result[`${item?.content?.status}`]?.push(item);
       });
-
       console.log("result :>> ", result);
-
       return result;
     },
   },

@@ -23,6 +23,8 @@ export const typeDefs = `#graphql
     DONE:[Task]
     INPROGRESS: [Task]
     TODO: [Task]
+    RESOLVED: [Task]
+    RELEASED: [Task]
   }
 
 
@@ -31,6 +33,8 @@ export const typeDefs = `#graphql
     name: String,
     descriptions: String,
     status: String,
+    issue_type: String,
+    priority: String
   }
 
   type Note {
@@ -42,13 +46,17 @@ export const typeDefs = `#graphql
   type Task {
     id: String!,
     content: ContentDataType,
+    createdAt: Date
     updatedAt: Date
   }
 
-  input ContentInput {
+  input TaskContentInput {
     name: String,
     descriptions: String,
     status: String,
+    issue_type: String
+    priority: String
+
   }
 
   type Author {
@@ -71,10 +79,10 @@ export const typeDefs = `#graphql
     ##
     addBoard(name: String!): Board,
     ##
-    addNote(content: ContentInput, folderId: ID!): Note,
+    addNote(content: TaskContentInput, folderId: ID!): Note,
     updateNote(id: String!,content: String!): Note,
     ##
-    addTask(content: ContentInput, folderId: ID!): Task,
+    addTask(content: TaskContentInput, folderId: ID!): Task,
     updateTask(id: String!,content: String!): Task,
     ##
     register(uid: String!, name: String!): Author
