@@ -10,6 +10,18 @@ const boardModel = new mongoose.Schema(
       type: String,
       required: true,
     },
+    descriptions: {
+      type: String,
+      required: true,
+    },
+    board_type: {
+      type: String,
+      required: true,
+    },
+    administrators: {
+      type: String,
+      required: true,
+    },
   },
   {
     // auto generate createdAt, apdatedAt

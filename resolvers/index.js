@@ -106,6 +106,7 @@ export const resolvers = {
       console.log({ parent });
       //6476ceffc107ec2d7b286e37
       console.log("object :>> ", args);
+
       const folders = await NoteModel.find({
         folderId: parent.id,
       }).sort({
@@ -172,8 +173,13 @@ export const resolvers = {
       return note;
     },
     addBoard: async (parent, args, context) => {
+      //
+      console.log(args, context);
       console.log("[Mutation] add new board >>:");
-      const newBoard = new BoardModel({ ...args, authorId: context.uid });
+      const newBoard = new BoardModel({
+        ...args,
+        authorId: context.uid,
+      });
       pubsub.publish("FOLDER_CREATED", {
         folderCreated: {
           message: "A new folder created",
@@ -196,7 +202,7 @@ export const resolvers = {
 
     register: async (parent, args) => {
       const foundUser = await AuthorModel.findOne({ uid: args.uid });
-
+      console.log("args :>> ", args);
       if (!foundUser) {
         const newUser = new AuthorModel(args);
         await newUser.save();

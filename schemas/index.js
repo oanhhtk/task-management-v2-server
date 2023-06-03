@@ -14,7 +14,10 @@ export const typeDefs = `#graphql
     name: String,
     createdAt: String,
     author: Author,
-    folders: [Note]
+    administrators: String,
+    board_type: String,
+    descriptions: String,
+    folders: [Note],
     notes: [Note],
     tasks: OutputTask,
   }
@@ -56,12 +59,19 @@ export const typeDefs = `#graphql
     status: String,
     issue_type: String
     priority: String
-
   }
 
   type Author {
     uid: String!,
-    name: String!
+    name: String!,
+    email: String!
+  }
+
+  input BoardInput {
+    name: String!,
+    administrators: String!,
+    descriptions: String,
+    board_type: String!
   }
 
   type Query {
@@ -77,7 +87,7 @@ export const typeDefs = `#graphql
   type Mutation {
     addFolder(name: String!): Folder,
     ##
-    addBoard(name: String!): Board,
+    addBoard(name: String!,administrators: String!,descriptions: String,board_type: String!): Board,
     ##
     addNote(content: TaskContentInput, folderId: ID!): Note,
     updateNote(id: String!,content: String!): Note,
@@ -85,7 +95,7 @@ export const typeDefs = `#graphql
     addTask(content: TaskContentInput, folderId: ID!): Task,
     updateTask(id: String!,content: String!): Task,
     ##
-    register(uid: String!, name: String!): Author
+    register(uid: String!, name: String!, email: String!): Author
     pushNotification(content: String): Message
   }
 
