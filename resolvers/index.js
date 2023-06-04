@@ -159,7 +159,6 @@ export const resolvers = {
       return newNote;
     },
     addTask: async (parent, args) => {
-      //  {folderId, content}  = args
       // ##
       console.log("[Mutation] Add Task:>>");
       console.log("args", args);
@@ -167,6 +166,7 @@ export const resolvers = {
       await newNote.save();
       return newNote;
     },
+
     updateNote: async (parent, args) => {
       const noteId = args.id;
       const note = await NoteModel.findByIdAndUpdate(noteId, args);
@@ -187,6 +187,40 @@ export const resolvers = {
       });
       await newBoard.save();
       return newBoard;
+    },
+    deleteBoard: async (parent, args) => {
+      console.log(" deleteBoard board :>> ", args.id);
+      BoardModel.findOneAndDelete({
+        _id: args.id,
+      })
+        .then((res) => ({
+          success: true,
+          message: "Deleted successfully",
+        }))
+        .catch((err) => ({
+          success: false,
+          message: JSON.stringify(err),
+        }));
+    },
+    updateBoard: async (parent, args) => {
+      const id = args.id;
+      console.log("args :>> ", args);
+      const board = await BoardModel.findByIdAndUpdate(id, args.content);
+      return board;
+    },
+
+    updateTask: async (parent, args) => {
+      // ##
+      console.log("[Mutation] Update Task:>>");
+      const taskId = args.id;
+      const new_content = args.content;
+
+      const foundTask = await TaskModel.findById({ _id: taskId });
+      if (foundTask) {
+        foundTask.content.status = new_content.status;
+      }
+      await TaskModel.findByIdAndUpdate({ _id: taskId }, foundTask);
+      return foundTask;
     },
     addFolder: async (parent, args, context) => {
       const newFolder = new FolderModel({ ...args, authorId: context.uid });

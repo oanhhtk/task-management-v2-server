@@ -13,6 +13,7 @@ export const typeDefs = `#graphql
     id: String!,
     name: String,
     createdAt: String,
+    updatedAt: String,
     author: Author,
     administrators: String,
     board_type: String,
@@ -47,7 +48,7 @@ export const typeDefs = `#graphql
   }
 
   type Task {
-    id: String!,
+    id: String,
     content: ContentDataType,
     createdAt: Date
     updatedAt: Date
@@ -69,9 +70,9 @@ export const typeDefs = `#graphql
 
   input BoardInput {
     name: String!,
-    administrators: String!,
+    administrators: String,
     descriptions: String,
-    board_type: String!
+    board_type: String
   }
 
   type Query {
@@ -88,12 +89,14 @@ export const typeDefs = `#graphql
     addFolder(name: String!): Folder,
     ##
     addBoard(name: String!,administrators: String!,descriptions: String,board_type: String!): Board,
+    deleteBoard(id: String!): Board,
+    updateBoard(id: String!,content: BoardInput): Board,
     ##
     addNote(content: TaskContentInput, folderId: ID!): Note,
     updateNote(id: String!,content: String!): Note,
     ##
     addTask(content: TaskContentInput, folderId: ID!): Task,
-    updateTask(id: String!,content: String!): Task,
+    updateTask(id: String,content: TaskContentInput): Task,
     ##
     register(uid: String!, name: String!, email: String!): Author
     pushNotification(content: String): Message
