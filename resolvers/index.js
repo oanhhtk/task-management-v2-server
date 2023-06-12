@@ -214,11 +214,17 @@ export const resolvers = {
       console.log("[Mutation] Update Task:>>");
       const taskId = args.id;
       const new_content = args.content;
+      console.log("new_content", new_content);
 
       const foundTask = await TaskModel.findById({ _id: taskId });
       if (foundTask) {
-        foundTask.content.status = new_content.status;
+        for (const [key, value] of Object.entries(new_content)) {
+          console.log(key, value);
+          foundTask.content[key] = value;
+        }
       }
+
+      console.log("foundTask :>> ", foundTask);
       await TaskModel.findByIdAndUpdate({ _id: taskId }, foundTask);
       return foundTask;
     },
